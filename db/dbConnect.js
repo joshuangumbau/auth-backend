@@ -43,9 +43,3 @@ mongoose.connection.on('reconnected', () =>{
 //export the connection
 module.exports = connectDB;
 
-
-// Path: app.js
-// Compare this snippet from index.js:
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const mongoose = require('mongoose');
