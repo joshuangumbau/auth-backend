@@ -12,4 +12,8 @@ app.get("/", (request, response, next) => {
 });
 
 
+const connectDB = require('./db/dbConnect');
+
+connectDB();
+
 module.exports = app;
