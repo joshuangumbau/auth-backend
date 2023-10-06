@@ -45,6 +45,28 @@ app.post('/register', async (req, res) => {
     })
 });
 
-app.get
+//endpoint to get the user from the database with the id 
+app.get ('retrieveuser/:id', async (reg, res) => {
+  try
+  {
+    //find the user by the id 
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    //return the user if the user is found
+    res.status(200).json({
+      message: 'User retrieved successfully',
+      result: user,
+    });
+  }
+  catch (error) {
+    //catch an error if the user is not found 
+    res.status(500).json({
+      message: 'error',
+      error: error.message,
+    });
+  }
+})
 
 module.exports = app;
