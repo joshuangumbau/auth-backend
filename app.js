@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const auth = require("./auth");
 
 
 // body parser configuration
@@ -19,6 +20,25 @@ const connectDB = require('./db/dbConnect');
 const User = require('./db/userModel');
 
 connectDB();
+
+//allowing the frontend user to consume api using cors errors
+//curb cores error by adding a header here
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow_origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+
+  );
+
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET ,POST, PUT, DELETE, PATCH, OPTIONS "
+  );
+  next();
+});
+
 //create a register endpoint
 app.post('/register', async (req, res) => {
   //hash the password
@@ -126,6 +146,16 @@ app.post("/login", (request, response) => {
       });
     });
 });
+ // protecting the endpoint 
+ //free endpoint
 
+ app.get("/free-endpoint", (request, response) => {
+  response.json({ message: "you are free to authorize me anytime"});
+ });
+
+ // authentication endpoint
+ app.get("/auth-endpoint", auth, (request, response) => {
+  response.json({message: "you are authorized to access me"});
+ });
 
 module.exports = app;
